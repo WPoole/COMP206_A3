@@ -30,20 +30,16 @@ int main(int argc, char *argv[]) {
 
   // TESTING nextToken()
   nextToken();
+  nextToken();
+  nextToken();
+  nextToken();
+  nextToken();
+  nextToken();
 
 
 
 
-
-  // WHY DOESN'T THIS BREAK AT ANY POINT? IS "\r" NOT A THING ON MAC?
-  for(int i=0; i<300; i++) {
-    if(line[i] == '\n') {
-      printf("You found '\n'!");
-      break;
-    }
-    printf("%c\n", line[i]);
-
-  }
+  // IS "\r" NOT A THING ON MAC?
 
   while(!feof(file_ptr)) {
     printf("%s\n", line);
