@@ -37,8 +37,6 @@ int main(int argc, char *argv[]) {
   nextToken();
 
 
-
-
   // IS "\r" NOT A THING ON MAC?
 
   while(!feof(file_ptr)) {

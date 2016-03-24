@@ -39,13 +39,18 @@ char *nextToken() {
     return NULL;
     } else {
       int i=0;
-      while(p2[i] != ' ' && p2[i] != ',' && p2[i] != '\n') {
-        returnMe[i] = p2[i];
+      while(p2[0] != ' ' && p2[0] != ',' && p2[0] != '\n') {
+        returnMe[i] = p2[0];
         i++;
+        p2 = p2+1;
       }
+      // To finish copying, need to have some indicator for 
+      // end of the string. For this we just add '\0' on to end.
+      returnMe[i] = '\0';
+      
       printf("returned string: %s\n", returnMe);
 
-      if(p2[i] == ' ' || p2[i] == ',') {
+      if(p2[0] == ' ' || p2[0] == ',') {
         p2 = p2+1;
         printf("Still more tokens!\n");
         return returnMe;
