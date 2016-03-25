@@ -29,6 +29,11 @@ int main(int argc, char *argv[]) {
   initBuffer(line);
   printf("buffer: %s\n", buffer);
 
+
+  // TESTING isValidExpression()
+  isValidExpression(line);
+
+
   // TESTING nextToken()
   nextToken();
   printf("Has Next Token?: %d\n", hasNextToken());
@@ -49,6 +54,15 @@ int main(int argc, char *argv[]) {
   // TESTING isValidCommand()
   char testCommand[13] = {'D','E','T','E','C','T','M','A','R','K','E','R','\0'};
   printf("Is it a valid command?: %d\n", isValidCommand(testCommand));
+
+
+
+  // TESTING isValidExpression()
+  
+
+
+
+
 
   while(!feof(file_ptr)) {
     printf("%s\n", line);
