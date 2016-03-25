@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parse.c"
+#include "syntax.c"
 
 int main(int argc, char *argv[]) { 
 
@@ -43,6 +44,11 @@ int main(int argc, char *argv[]) {
   printf("Has Next Token?: %d\n", hasNextToken());
 
   // IS "\r" NOT A THING ON MAC?
+
+
+  // TESTING isValidCommand()
+  char testCommand[13] = {'D','E','T','E','C','T','M','A','R','K','E','R','\0'};
+  printf("Is it a valid command?: %d\n", isValidCommand(testCommand));
 
   while(!feof(file_ptr)) {
     printf("%s\n", line);
