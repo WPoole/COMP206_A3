@@ -42,7 +42,7 @@ int isValidCommand(char *token) {
 int isValidExpression(char *expression) {
   // GET FIRST TOKEN AND SET TO currToken.
   setCurrToken(nextToken());  
-  printf("CURRENT TOKEN IS: %s\n", currToken);
+  printf("\nCURRENT TOKEN IS: %s\n", currToken);
   printf("Repeat[0] is: %s\n", repeat[0]);
   printf("WhileNot[0] is: %s\n", whileNot[0]);  
   printf("strcmp(currToken, repeat[0]) is: %d\n", strcmp(currToken, repeat[0]));
@@ -52,16 +52,44 @@ int isValidExpression(char *expression) {
 
   // CHECK IF FIRST WORD MATCHES WITH A VALID EXPRESSION (EITHER "REPEAT"
   // OR "WHILE").
-  if(strcmp(currToken, repeat[0]) && strcmp(currToken, whileNot[0])) {
+  if(strcmp(currToken, repeat[i]) && strcmp(currToken, whileNot[i])) {
     printf("Invalid Expression\n\n");
     return 0;
+
   } else if(!strcmp(currToken, repeat[0])) {
     // IF THE FIRST WORD IS "REPEAT", WE WILL BE MAKING COMPARISONS
     // WITH THE "repeat" ARRAY.
     
+    // GET NEXT TOKEN AND CHECK IF IT IS AN INTEGER. IF IT IS, WE'RE GOOD AND
+    // CAN CONTINUE. IF IT IS NOT, THEN WE RETURN 0 SINCE IT IS BROKEN.
+    setCurrToken(nextToken());
+    if(!atoi(currToken)) {
+      printf("Invalid number.\n\n");
+      return 0;
+    } 
+    printf("NUMBER n: %d\n", atoi(currToken));
+
+    // INCREMENT "i" SO WE CAN COMPARE WITH NEXT ELEMENT IN "repeat" ARRAY.
+    i++;
+    // GET AND SET NEXT TOKEN, THEN CHECK IF IT'S LEGIT.
+    setCurrToken(nextToken());
+    printf("TIMES: %s\n", currToken);
+    if(strcmp(currToken, repeat[i])) {
+      printf("Invalid TIMES.\n\n");
+      return 0;
+    }
+
+    // NOW AT THIS POINT WE SHOULD HAVE IN FRONT OF US THE "COMMA-SEPARATED-
+    // LIST-OF-COMMANDS". SO WE LOOP OVER UNTIL WE GET TO THE END OF THIS LIST.
+    
+    
+
+
+    
   } else if(!strcmp(currToken, whileNot[0])) {
     // IF THE FIRST WORD IS "WHILE", WE WILL BE MAKING COMPARISONS
     // WITH THE "whileNot" ARRAY.
+
 
   }
 
