@@ -30,12 +30,17 @@ int main(int argc, char *argv[]) {
 
   // TESTING nextToken()
   nextToken();
+  printf("Has Next Token?: %d\n", hasNextToken());
   nextToken();
+  printf("Has Next Token?: %d\n", hasNextToken());
   nextToken();
+  printf("Has Next Token?: %d\n", hasNextToken());
   nextToken();
+  printf("Has Next Token?: %d\n", hasNextToken());
   nextToken();
+  printf("Has Next Token?: %d\n", hasNextToken());
   nextToken();
-
+  printf("Has Next Token?: %d\n", hasNextToken());
 
   // IS "\r" NOT A THING ON MAC?
 
