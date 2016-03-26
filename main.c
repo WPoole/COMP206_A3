@@ -32,7 +32,10 @@ int main(int argc, char *argv[]) {
 
   // TESTING isValidExpression()
   isValidExpression(line);
+  
 
+  // JUST CLEAR A FEW LINES.
+  printf("\n\n\n\n");
 
   // TESTING nextToken()
   nextToken();

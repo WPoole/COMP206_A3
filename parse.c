@@ -27,6 +27,7 @@ void initBuffer(char *inputLine) {
 
 // hasNextToken()
 int hasNextToken() {
+  printf("THE LENGTH OF THE BUFFER IS: %d\n",strlen(buffer));
   if(charsSeen >= strlen(buffer)) {
     // Return 0 (false) if there is no next token.
     printf("No more tokens.\n");
@@ -44,34 +45,53 @@ char *nextToken() {
     printf("You are returning NULL\n");
     return NULL;
     } else {
-      int i=0;
-      while(p1[0] != ' ' && p1[0] != ',' && p1[0] != '\n') {
-        returnMe[i] = p1[0];
-        i++;
+
+      // CHECK HERE TO SEE IF FIRST CHARACTER WE ARE LOOKING AT IS 
+      // A WHITESPACE OF A COMMA.
+      if(p1[0] == ' ') {
+        returnMe[0] = ' ';
+        returnMe[1] = '\0';
         charsSeen++;
         p1 = p1+1;
-      }
-      // To finish copying, need to have some indicator for 
-      // end of the string. For this we just add '\0' on to end.
-      returnMe[i] = '\0';
-      
-      printf("returned string: %s\n", returnMe);
-
-      if(p1[0] == ' ' || p1[0] == ',') {
-        p1 = p1+1;
+        return returnMe;
+      } else if(p1[0] == ',') {
+        returnMe[0] = ',';
+        returnMe[1] = '\0';
         charsSeen++;
-
-        printf("Size of string is: %d\n", strlen(buffer));
-        printf("charsSeen: %d\n", charsSeen);
-        printf("Still more tokens!\n");
-
+        p1 = p1+1;
         return returnMe;
       } else {
-        // If here, p1 currently points to '\n', so no need 
-        // to increment pointer. Just return "returnMe".
+        // NOW WE KNOW WE ARE PASSED WHITE SPACE AND COMMAS, SO WE 
+        // CAN CHECK FOR THE REGULAR TOKENS.
+        int i=0;
+        while(p1[0] != ' ' && p1[0] != ',' && p1[0] != '\n') {
+          returnMe[i] = p1[0];
+          i++;
+          charsSeen++;
+          p1 = p1+1;
+        }
+        // To finish copying, need to have some indicator for 
+        // end of the string. For this we just add '\0' on to end.
+        returnMe[i] = '\0';
+        
+        printf("returned string: %s\n", returnMe);
 
-        printf("End of line. No more tokens here!\n");
-        return returnMe;
+        if(p1[0] == ' ' || p1[0] == ',') {
+          p1 = p1+1;
+          charsSeen++;
+
+          printf("Size of string is: %d\n", strlen(buffer));
+          printf("charsSeen: %d\n", charsSeen);
+          printf("Still more tokens!\n");
+
+          return returnMe;
+        } else {
+          // If here, p1 currently points to '\n', so no need 
+          // to increment pointer. Just return "returnMe".
+
+          printf("End of line. No more tokens here!\n");
+          return returnMe;
+        }
       }
     }
   }
