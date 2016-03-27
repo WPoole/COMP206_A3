@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parse.c"
+//#include "oldSyntax2.c"
 #include "syntax.c"
 
 int main(int argc, char *argv[]) { 
@@ -31,8 +32,11 @@ int main(int argc, char *argv[]) {
 
 
   // TESTING isValidExpression()
-  isValidExpression(line);
-  
+  int result = isValidExpression(line);
+  printf("\n\nERROR OCCURRED AT INDEX: %d\n\n", result);
+  printf("%s\n", line);
+  line[result-1] = '*';
+  printf("%s\n", line);
 
   // JUST CLEAR A FEW LINES.
   printf("\n\n\n\n");
