@@ -42,18 +42,18 @@ int main(int argc, char *argv[]) {
   printf("\n\n\n\n");
 
   // TESTING nextToken()
-  nextToken();
-  printf("Has Next Token?: %d\n", hasNextToken());
-  nextToken();
-  printf("Has Next Token?: %d\n", hasNextToken());
-  nextToken();
-  printf("Has Next Token?: %d\n", hasNextToken());
-  nextToken();
-  printf("Has Next Token?: %d\n", hasNextToken());
-  nextToken();
-  printf("Has Next Token?: %d\n", hasNextToken());
-  nextToken();
-  printf("Has Next Token?: %d\n", hasNextToken());
+  // nextToken();
+  // printf("Has Next Token?: %d\n", hasNextToken());
+  // nextToken();
+  // printf("Has Next Token?: %d\n", hasNextToken());
+  // nextToken();
+  // printf("Has Next Token?: %d\n", hasNextToken());
+  // nextToken();
+  // printf("Has Next Token?: %d\n", hasNextToken());
+  // nextToken();
+  // printf("Has Next Token?: %d\n", hasNextToken());
+  // nextToken();
+  // printf("Has Next Token?: %d\n", hasNextToken());
 
   // IS "\r" NOT A THING ON MAC?
 
