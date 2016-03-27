@@ -26,54 +26,39 @@ int main(int argc, char *argv[]) {
 
   fgets(line, 299, file_ptr);
 
-  // TESTING initBuffer()
+  printf("********************** THIS IS WHAT THE LINE REALLY IS: %s\n", line);
   initBuffer(line);
-  printf("buffer: %s\n", buffer);
+  printf("^^^^^^^^^^^^^^^^^^^^^^ THIS IS WHAT THE BUFFER CONTAINS: %s\n\n", buffer);
 
-
-  // TESTING isValidExpression()
   int result = isValidExpression(line);
   printf("\n\nERROR OCCURRED AT INDEX: %d\n\n", result);
-  printf("%s\n", line);
+  printf("UNCORRECTED LINE: %s\n", line);
   line[result-1] = '*';
-  printf("%s\n", line);
+  printf("FIXED LINE: %s\n", line);
 
   // JUST CLEAR A FEW LINES.
-  printf("\n\n\n\n");
-
-  // TESTING nextToken()
-  // nextToken();
-  // printf("Has Next Token?: %d\n", hasNextToken());
-  // nextToken();
-  // printf("Has Next Token?: %d\n", hasNextToken());
-  // nextToken();
-  // printf("Has Next Token?: %d\n", hasNextToken());
-  // nextToken();
-  // printf("Has Next Token?: %d\n", hasNextToken());
-  // nextToken();
-  // printf("Has Next Token?: %d\n", hasNextToken());
-  // nextToken();
-  // printf("Has Next Token?: %d\n", hasNextToken());
-
-  // IS "\r" NOT A THING ON MAC?
-
-
-  // TESTING isValidCommand()
-  char testCommand[13] = {'D','E','T','E','C','T','M','A','R','K','E','R','\0'};
-  printf("Is it a valid command?: %d\n", isValidCommand(testCommand));
-
-
-
-  // TESTING isValidExpression()
-  
-
-
+  printf("\n\n\n\n\n\n\n");
 
 
 
   while(!feof(file_ptr)) {
-    printf("%s\n", line);
+    // GET NEXT LINE.
     fgets(line, 299, file_ptr);
+
+    printf("********************** THIS IS WHAT THE LINE REALLY IS: %s\n", line);
+    initBuffer(line);
+    printf("^^^^^^^^^^^^^^^^^^^^^^ THIS IS WHAT THE BUFFER CONTAINS: %s\n\n", buffer);
+
+    int result = isValidExpression(line);
+    printf("\n\nERROR OCCURRED AT INDEX: %d\n\n", result);
+    printf("UNCORRECTED LINE: %s\n", line);
+    line[result-1] = '*';
+    printf("FIXED LINE: %s\n", line);
+
+    // JUST CLEAR A FEW LINES.
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+
   }
   fclose(file_ptr);
 

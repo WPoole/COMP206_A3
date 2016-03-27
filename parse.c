@@ -22,12 +22,16 @@ void initBuffer(char *inputLine) {
   // Set p1 to start of buffer.
   p1 = &buffer;
   printf("Size of string is: %d\n", strlen(buffer));
+
+  // SETTING charSeen TO 0 AT THE START OF EACH LINE IS *VERY*
+  // IMPORTANT. IT WILL NOT WORK OTHERWISE.
+  charsSeen = 0;
 }
 
 
 // hasNextToken()
 int hasNextToken() {
-  printf("THE LENGTH OF THE BUFFER IS: %d\n",strlen(buffer));
+  // printf("THE LENGTH OF THE BUFFER IS: %d\n",strlen(buffer));
   if(charsSeen >= strlen(buffer)) {
     // Return 0 (false) if there is no next token.
     printf("No more tokens.\n");
@@ -43,6 +47,7 @@ int hasNextToken() {
 char *nextToken() {
   if(p1[0] == '\n') {
     printf("You are returning NULL\n");
+
     return NULL;
     } else {
 
