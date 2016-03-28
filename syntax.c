@@ -806,7 +806,7 @@ int isValidExpression(char *expression) {
           printf("\nOMG WTF PLEASE HAPPEN\n\n");
           if(isEnd()) {
             printf("SEEEEEEEEE\n");
-            return 45;
+            return 0;
           } else {
             // IF WE GET HERE, WE KNOW THERE ARE MORE TOKENS FOLLOWING THE 
             // SECOND DOUBLE QUOTE. HENCE, WE CAN THROW AN ERROR.
@@ -843,7 +843,7 @@ int isValidExpression(char *expression) {
                 // KNOW WE MUST BE AT THE END. ALL WE NEED TO DO IS CHECK THAT
                 // THERE IS NOTHING ELSE BEFORE END OF THE LINE.
                 if(isEnd()) {   
-                  return 50;
+                  return 0;
                 } else {                  
                   return errorIndex;
                 }
@@ -884,7 +884,7 @@ int isValidExpression(char *expression) {
               // KNOW WE MUST BE AT THE END. ALL WE NEED TO DO IS CHECK THAT
               // THERE IS NOTHING ELSE BEFORE END OF THE LINE.
               if(isEnd()) {   
-                return 50;
+                return 0;
               } else {                  
                 return errorIndex;
               }

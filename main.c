@@ -11,19 +11,35 @@ void syntaxCheck(char *line, int lineNum) {
 
   initBuffer(line);
   int result = isValidExpression(line);
-  // printf("\n\nERROR OCCURRED AT INDEX: %d\n\n", result);
-  printf("\n\n\n\n\n\n\n\n"); 
-  printf("OFFENDING LINE IS ON LINE NUMBER: %d\n", lineNum);
-  printf("OFFENDING LINE IS: %s", line);
-  line[result-2] = '\0';
-  printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: %s", line);
-  int length = strlen(line);
-  char *secondHalf = &line[length+1];
-  printf("***");
-  printf("%s\n", secondHalf);
+  printf("THE INDEX OF THE ERROR IS: %d\n", result);
 
-  // JUST CLEAR A FEW LINES.
-  printf("\n\n\n\n\n\n\n");
+  if(result == 0) {
+    printf("\n\n\n\n\n\n\n\n"); 
+    printf("LINE %d WAS TOTALLY FINE!!!\n", lineNum);
+    printf("THE WELL-WRITTEN LINE IS: %s", line);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+  } else if(result == 1) { 
+    printf("\n\n\n\n\n\n\n\n"); 
+    printf("OFFENDING LINE IS ON LINE NUMBER: %d\n", lineNum);
+    printf("OFFENDING LINE IS: %s\n", line);
+    printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: ***%s\n", line);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+  } else {
+    printf("\n\n\n\n\n\n\n\n"); 
+    printf("OFFENDING LINE IS ON LINE NUMBER: %d\n", lineNum);
+    printf("OFFENDING LINE IS: %s\n", line);
+    line[result-2] = '\0';
+    printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: %s\n", line);
+    int length = strlen(line);
+    char *secondHalf = &line[length+1];
+    printf("***");
+    printf("%s\n", secondHalf);
+
+    // JUST CLEAR A FEW LINES.
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+  }
 
 }
 
@@ -44,39 +60,20 @@ int main(int argc, char *argv[]) {
   file_ptr = fopen(filepath, "rt");
 
   if (file_ptr == NULL) {
-    printf("Error: File pointer is set to NULL.");
+    printf("Error: File pointer is set to NULL.\n");
     return 1;
   }
 
   // VARIABLE TO KEEP TRACK OF LINE NUMBER WE'RE ON.
   int lineNum = 1;
   fgets(line, 299, file_ptr);
-
   syntaxCheck(line, lineNum);
-
-  
-
-
-
 
   while(!feof(file_ptr)) {
     // GET NEXT LINE.
     fgets(line, 299, file_ptr);
-
-
-    // printf("********************** THIS IS WHAT THE LINE REALLY IS: %s\n", line);
-    // initBuffer(line);
-    // printf("^^^^^^^^^^^^^^^^^^^^^^ THIS IS WHAT THE BUFFER CONTAINS: %s\n\n", buffer);
-
-    // int result = isValidExpression(line);
-    // printf("\n\nERROR OCCURRED AT INDEX: %d\n\n", result);
-    // printf("UNCORRECTED LINE: %s\n", line);
-    // line[result-2] = '*';
-    // printf("FIXED LINE: %s\n", line);
-
-    // // JUST CLEAR A FEW LINES.
-    // printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-
+    lineNum++;
+    syntaxCheck(line, lineNum);
 
   }
   fclose(file_ptr);
