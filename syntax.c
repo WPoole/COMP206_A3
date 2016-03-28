@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-//#include "parse.c"
+#include "parse.h"
 
 // All #define variables.
 #define NUM_COMMANDS 8

@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "parse.c"
-//#include "oldSyntax2.c"
-#include "syntax.c"
+#include "parse.h"
+#include "syntax.h"
 
 
 // FUNCTION THAT WILL RUN TO DO THE SYNTAX CHECK AND OUTPUT ERROR MESSAGES IF NEEDED.
@@ -31,7 +30,7 @@ void syntaxCheck(char *line, int lineNum) {
     printf("OFFENDING LINE IS ON LINE NUMBER: %d\n", lineNum);
     printf("OFFENDING LINE IS: %s\n", line);
     line[result-2] = '\0';
-    printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: %s\n", line);
+    printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: %s", line);
     int length = strlen(line);
     char *secondHalf = &line[length+1];
     printf("***");
