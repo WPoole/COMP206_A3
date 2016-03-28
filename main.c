@@ -45,18 +45,18 @@ int main(int argc, char *argv[]) {
     // GET NEXT LINE.
     fgets(line, 299, file_ptr);
 
-    printf("********************** THIS IS WHAT THE LINE REALLY IS: %s\n", line);
-    initBuffer(line);
-    printf("^^^^^^^^^^^^^^^^^^^^^^ THIS IS WHAT THE BUFFER CONTAINS: %s\n\n", buffer);
+    // printf("********************** THIS IS WHAT THE LINE REALLY IS: %s\n", line);
+    // initBuffer(line);
+    // printf("^^^^^^^^^^^^^^^^^^^^^^ THIS IS WHAT THE BUFFER CONTAINS: %s\n\n", buffer);
 
-    int result = isValidExpression(line);
-    printf("\n\nERROR OCCURRED AT INDEX: %d\n\n", result);
-    printf("UNCORRECTED LINE: %s\n", line);
-    line[result-1] = '*';
-    printf("FIXED LINE: %s\n", line);
+    // int result = isValidExpression(line);
+    // printf("\n\nERROR OCCURRED AT INDEX: %d\n\n", result);
+    // printf("UNCORRECTED LINE: %s\n", line);
+    // line[result-1] = '*';
+    // printf("FIXED LINE: %s\n", line);
 
-    // JUST CLEAR A FEW LINES.
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    // // JUST CLEAR A FEW LINES.
+    // printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
 
   }

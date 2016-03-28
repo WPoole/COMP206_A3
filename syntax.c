@@ -213,10 +213,19 @@ int isValidExpression(char *expression) {
   // INITIALIZE i VARIABLE TO HELP ITERATE THROUGH "repeat" ARRAY.
   int i = 0;
 
-  // CHECK IF FIRST WORD MATCHES WITH A VALID EXPRESSION (EITHER "REPEAT"
-  // OR "WHILE").
-  // ************ DON'T FORGET HERE TO ALSO CHECK FOR SINGLE COMMANDS **************
-  if(strcmp(currToken, repeat[i]) && strcmp(currToken, whileNot[i]) && strcmp(currToken, say[i])) {
+  // FIRST CHECK TO SEE IF THE EXPRESSION INPUTED IS JUST A SINGLE COMMAND. NOTE THERE 
+  // CAN ONLY BE ONE COMMAND PER LINE IF THIS IS THE CASE.
+  if(isValidCommand(currToken)) {
+    if(isEnd()) {
+      return 0;
+    } else {
+      return errorIndex;
+    }
+  }
+
+
+  // CHECK IF FIRST WORD MATCHES WITH A VALID EXPRESSION (EITHER "REPEAT" OR "WHILE").
+  else if(strcmp(currToken, repeat[i]) && strcmp(currToken, whileNot[i]) && strcmp(currToken, say[i])) {
     printf("Invalid Expression\n\n");
     return errorIndex;
 
@@ -243,6 +252,14 @@ int isValidExpression(char *expression) {
 
     // GET NEXT TOKEN AND CHECK IF IT IS AN INTEGER. IF IT IS, WE'RE GOOD AND
     // CAN CONTINUE. IF IT IS NOT, THEN WE RETURN 0 SINCE IT IS BROKEN.
+
+
+
+
+
+    // ************************************* BE SURE TO GO THROUGH AND FIX ALL THE STUFF LIKE THE LINE BELOW WHERE I TRY
+    // TO SET THE TOKEN WITHOUT FIRST CHECKING IF ITS NULL. THEY ALL GIVE SEG FAULTS. 
+    // *******************************************!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*************************
     setCurrToken(nextToken());
     currTokenLength = strlen(currToken);
 
@@ -667,37 +684,130 @@ int isValidExpression(char *expression) {
   // *******************************************************************************
   } else if(!strcmp(currToken, say[0])) {
 
-    // GET NEXT TOKEN AND CHECK IF IT IS "NOT". IF IT IS, WE'RE GOOD AND
-    // CAN CONTINUE. IF IT IS NOT, THEN WE RETURN 0 SINCE IT IS BROKEN.
-    setCurrToken(nextToken());
+    // CHECK IF NEXT TOKEN IS NULL AND THEN SET IT.
+    char *nextPtr = nextToken();
+    if(isNextNull(nextPtr)) {
+      return errorIndex;
+    } else {
+      setCurrToken(nextToken());
+    }
 
-    // INCREMENT "i" SO WE CAN COMPARE TOKEN WITH "NOT" FROM ARRAY.
-    i++;
-    printf("*****!!!!***** VARIABLE i IS: %d *****!!!!*****\n", i);
 
     // FIRST GET RID OF ALL WHITESPACES.
     while(isWhiteSpace()) {
-      setCurrToken(nextToken());
-    }
-    printf("NOT: %s\n", currToken);
-    if(strcmp(currToken, whileNot[i])) {
-      printf("Invalid 'NOT'.\n\n");
-      return 0;
+
+      char *ptrToken = nextToken();
+      if(isNextNull(ptrToken)) {
+        // IF WE GET TO A NULL AT THIS POINT, WE KNOW THERE MUST NOT HAVE BEEN
+        // ANY MESSAGE OR OTHER TOKENS ENTERED, SO WE RETURN 0 TO INDICATE ERROR.
+        printf("YOU MUST ENTER A MESSAGE AFTER USING 'SAY'. \n");
+        return errorIndex;
+      } else {
+        setCurrToken(ptrToken);
+
+      }
     }
 
+
+
+
+    printf("SAY: %s\n", currToken);
+
+    // IF FIRST CHAR AFTER SAY IS NOT A DOUBLE QUOTE, THERE IS A MISTAKE.
+    if(currToken[0] != '"') {
+      printf("FIRST CHARACTER WAS **NOT** A DOUBLE QUOTE!!! .\n\n");
+      return errorIndex;
+
+    } else {
+      // IF HERE, WE KNOW THE FIRST CHARACTER WAS A DOUBLE QUOTE, AS EXPECTED.
+      printf("FIRST CHARACTER AFTER 'SAY' IS A DOUBLE QUOTE!!! .\n\n");
+
+      int tokLength = strlen(currToken);
+      // FIRST THING TO DO, IF WE KNOW THE FIRST CHAR WAS A DOUBLE QUOTE OF 
+      // THIS TOKEN, IS TO THEN CHECK THE LAST CHARACTER OF THIS SAME TOKEN 
+      // TO SEE IF IT TOO IS A DOUBLE QUOTE. THIS NEEDS TO BE HANDLED 
+      // SEPARATELY THAN IF MORE THAN ONE TOKEN MAKE UP THE MESSAGE BODY.
+      
+      // IF WE ENTER THIS "if" STATEMENT, THE DOUBLE QUOTE IS EITHER BY
+      // ITSELF OF THE START AND END DOUBLE QUOTES ARE IN THE SAME TOKEN.
+      if(currToken[tokLength-1] == '"') {
+
+        // EXAMPLE: "abc".
+        if(tokLength != 1) {
+          printf("\nOMG WTF PLEASE HAPPEN\n\n");
+          if(isEnd()) {
+            printf("SEEEEEEEEE\n");
+            return 45;
+          } else {
+            // IF WE GET HERE, WE KNOW THERE ARE MORE TOKENS FOLLOWING THE 
+            // SECOND DOUBLE QUOTE. HENCE, WE CAN THROW AN ERROR.
+            return errorIndex;
+          }
+
+        } else {
+          // ELSE, THE LENGTH *IS* 1, WE MUST GET REMAINING TOKENS ONE AT A 
+          // TIME. FOR EACH ONE, CHECK IF LAST CHAR IS A DOUBLE QUOTE.
+          while(hasNextToken()) {
+
+            char *DQPtr = nextToken();
+
+            if(isNextNull(DQPtr)) {
+              return errorIndex;
+
+            } else {
+              setCurrToken(DQPtr);
+              printf("\n\nTHE CURRENT TOKEN IS THE FOLLOWING: %s\n\n\n", DQPtr);
+
+              tokLength = strlen(currToken);
+              printf("\n\nITS LENGTH IS: %d\n\n\n", tokLength);
+
+              if(currToken[tokLength-1] == '"') {
+                // IF WE FOUND A TOKEN WHOS LAST CHARACTER IS A DOUBLE QUOTE, WE 
+                // KNOW WE MUST BE AT THE END. ALL WE NEED TO DO IS CHECK THAT
+                // THERE IS NOTHING ELSE BEFORE END OF THE LINE.
+                if(isEnd()) {
+                  return 50;
+                } else {
+                  return errorIndex;
+                }
+              } 
+            }
+          }
+        }
+
+      } else {
+        // IF WE GET HERE, WE KNOW WE NEED TO TRY TO LOOK FOR THE SECOND DOUBLE QUOTE.
+          
+        while(hasNextToken()) {
+
+          char *DQPtr = nextToken();
+
+          if(isNextNull(DQPtr)) {
+            return errorIndex;
+
+          } else {
+            setCurrToken(DQPtr);
+            printf("\n\nTHE CURRENT TOKEN IS THE FOLLOWING: %s\n\n\n", DQPtr);
+
+            tokLength = strlen(currToken);
+            printf("\n\nITS LENGTH IS: %d\n\n\n", tokLength);
+
+            if(currToken[tokLength-1] == '"') {
+              // IF WE FOUND A TOKEN WHOS LAST CHARACTER IS A DOUBLE QUOTE, WE 
+              // KNOW WE MUST BE AT THE END. ALL WE NEED TO DO IS CHECK THAT
+              // THERE IS NOTHING ELSE BEFORE END OF THE LINE.
+              if(isEnd()) {
+                return 50;
+              } else {
+                return errorIndex;
+              }
+            } 
+          }
+        }
+      }
+    }
 
   }
-  
-
-
-  // *******************************************************************************
-  // IF FIRST WORD IS "SAY".
-  // *******************************************************************************
-  else if(!strcmp(currToken, whileNot[0])) {}
-
-
-
   printf("THE EXPRESSION ENTERED WAS VALID\n\n");
   return 0;
-
 }
