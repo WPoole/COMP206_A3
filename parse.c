@@ -44,7 +44,7 @@ BOOLEAN hasNextToken() {
 
 // nextToken()
 char *nextToken() {
-  if(p1[0] == '\n') {
+  if(p1[0] == '\n' || p1[0] == '\0') {
 
     return NULL;
     } else {
@@ -67,7 +67,7 @@ char *nextToken() {
         // NOW WE KNOW WE ARE PASSED WHITE SPACE AND COMMAS, SO WE 
         // CAN CHECK FOR THE REGULAR TOKENS.
         int i=0;
-        while(p1[0] != ' ' && p1[0] != ',' && p1[0] != '\n') {
+        while(p1[0] != ' ' && p1[0] != ',' && p1[0] != '\n' && p1[0] != '\0') {
           returnMe[i] = p1[0];
           i++;
           charsSeen++;
