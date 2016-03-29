@@ -40,7 +40,6 @@ int lineNumber = 0;
 
 // NEED FUNCTION TO SEE IF TOKEN IS A VALID NUMBER OR NOT.
 int isNumber(char *c) {
-  printf("THE NUMBER WE ARE TRYING TO CHECK IS: %s\n", c);
   int i = 0;
 
   while(c[i] != '\0') {
@@ -77,12 +76,10 @@ int isEnd() {
     char *nextTokenPointer = nextToken();
 
     if(nextTokenPointer == NULL) {
-      printf("THE END IS ALL GOOD!!!!\n");
       return 1;
     } else {
       setCurrToken(nextTokenPointer);
       if(!isWhiteSpace()) {
-        printf("THE END CANNOT HAVE ANYTHING AFTER IT!!! \n");
         return 0;
       } else {
         // ELSE WE KNOW IT IS WHITE SPACE...
@@ -91,15 +88,12 @@ int isEnd() {
       }
     }
   }
-  printf("THE END IS GOOD!!!!\n");
   return 1;
 }
 
 // CHECK IF NEXT TOKEN IS NULL FUNCTION
 int isNextNull(char *nextTokenPointer) { 
   if(nextTokenPointer == NULL) {
-    printf("POINTER IS SET TO NULL!!!!!!!!! \n");
-    printf("VALID EXPRESSION SINCE WE FOUND NULL!!!!!\n");
     return 1;
   } else {
     return 0;
@@ -111,7 +105,6 @@ int isWhiteSpace() {
   char *whiteSpace = " ";
   // RETURN 1 IF THE CURRENT TOKEN IS A WHITESPACE, 0 OTHERWISE.
   if(!strcmp(currToken, whiteSpace)) {
-    printf("YOU FOUND A WHITESPACE.\n");
     return 1;
   } else {
     return 0;
@@ -123,7 +116,6 @@ int isComma() {
   char *comma = ",";
   // RETURN 1 IF THE CURRENT TOKEN IS A WHITESPACE, 0 OTHERWISE.
   if(!strcmp(currToken, comma)) {
-    printf("YOU FOUND A COMMA.\n");
     return 1;
   } else {
     return 0;
@@ -138,13 +130,11 @@ int isCommaOrWhite() {
   char *comma = ",";
   // RETURN 1 IF THE CURRENT TOKEN IS A WHITESPACE OR COMMA, 0 OTHERWISE.
   if(!strcmp(currToken, whiteSpace) || !strcmp(currToken, comma)) {
-    printf("YOU FOUND A COMMA OR WHITESPACE.\n");
     return 1;
   } else {
     return 0;
   }
 }
-
 
 
 
@@ -196,15 +186,6 @@ int isValidExpression(char *expression) {
       setCurrToken(pointNextToken);
     }
   }
-
-  printf("**@*@*@*@*@*@*@*@ INDEX HERE IS: %d\n", errorIndex);
-
-  // PRINTING FOR TESTING.
-  printf("\nCURRENT TOKEN IS: %s\n", currToken);
-  printf("Repeat[0] is: %s\n", repeat[0]);
-  printf("WhileNot[0] is: %s\n", whileNot[0]);  
-  printf("strcmp(currToken, repeat[0]) is: %d\n", strcmp(currToken, repeat[0]));
-  printf("strcmp(currToken, whileNot[0]) is: %d\n", strcmp(currToken, whileNot[0]));  
   
   // INITIALIZE i VARIABLE TO HELP ITERATE THROUGH "repeat" ARRAY.
   int i = 0;
@@ -222,7 +203,6 @@ int isValidExpression(char *expression) {
 
   // CHECK IF FIRST WORD MATCHES WITH A VALID EXPRESSION (EITHER "REPEAT" OR "WHILE").
   else if(strcmp(currToken, repeat[i]) && strcmp(currToken, whileNot[i]) && strcmp(currToken, say[i])) {
-    printf("Invalid Expression\n\n");
     return errorIndex;
 
 
@@ -247,7 +227,6 @@ int isValidExpression(char *expression) {
 
     char *tempPtr = nextToken();
     if(isNextNull(tempPtr)) {
-      printf("MUST HAVE STUFF AFTER 'REPEAT'\n");
       return errorIndex;
     }
 
@@ -260,7 +239,6 @@ int isValidExpression(char *expression) {
 
       char *tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
-        printf("MUST HAVE STUFF AFTER 'REPEAT' HERE!!\n");
         return errorIndex;
       }
       setCurrToken(tempPtr);
@@ -269,12 +247,9 @@ int isValidExpression(char *expression) {
 
 
     if(!isNumber(currToken)) {
-      printf("Invalid number.\n\n");
       return errorIndex;
     } else {
       errorIndex += (currTokenLength + 1);
-
-      printf("NUMBER n: %d\n", atoi(currToken));
     }
 
 
@@ -284,7 +259,6 @@ int isValidExpression(char *expression) {
     // GET AND SET NEXT TOKEN, THEN CHECK IF IT'S LEGIT.
     tempPtr = nextToken();
     if(isNextNull(tempPtr)) {
-      printf("MUST HAVE STUFF AFTER 'NUMBER'\n");
       return errorIndex;
     }
 
@@ -297,7 +271,6 @@ int isValidExpression(char *expression) {
 
       char *tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
-        printf("MUST HAVE STUFF AFTER 'NUMBER' HERE!!\n");
         return errorIndex;
       }
       setCurrToken(tempPtr);
@@ -306,7 +279,6 @@ int isValidExpression(char *expression) {
 
     // CHECK IF CURRENT TOKEN EQUALS "TIMES".
     if(strcmp(currToken, repeat[i])) {
-      printf("Invalid TIMES.\n\n");
       return errorIndex;
     } else {
       errorIndex += (currTokenLength + 1);
@@ -318,7 +290,6 @@ int isValidExpression(char *expression) {
 
       char *tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
-        printf("MUST HAVE STUFF AFTER 'TIMES'\n");
         return errorIndex;
       }
       setCurrToken(tempPtr);
@@ -335,7 +306,6 @@ int isValidExpression(char *expression) {
         if(isNextNull(pointerToken)) {
           // IF WE GET TO A NULL AT THIS POINT, WE KNOW THERE MUST NOT HAVE BEEN
           // ANY COMMANDS OR "END" ENTERED, SO WE RETURN 0 TO INDICATE ERROR.
-          printf("YOU MUST ENTER COMMA-SEPARATED-COMMANDS FOLLOWED BY 'END' \n");
           return errorIndex;
         } else {
           setCurrToken(pointerToken);
@@ -349,13 +319,10 @@ int isValidExpression(char *expression) {
       // AND KNOW THERE IS NOTHING AFTER IT, WE KNOW THE EXPRESSION IS CHECKED AND WE 
       // CAN CONFIRM IT IS CORRECT.
       if(checkEnd()) {
-        printf("NO COMMANDS ENTERED!\n\n");
         // CHECK IF THERE WAS ANYTHING OTHER THAN WHITESPACE AFTER "END".
         if(isEnd()) {
-          printf("THIS EXPRESSION FINISHED WITH 'END' AND IS VALID!\n");
           return 0;
         } else {
-          printf("CANNOT HAVE ANYTHING EXCEPT WHITESPACE AFTER 'END'!\n");
           return errorIndex;
         }
       }
@@ -363,17 +330,14 @@ int isValidExpression(char *expression) {
       // HERE WE CHECK FOR JUST THE VALID COMMANDS.
       if(isValidCommand(currToken)) {
         errorIndex += (currTokenLength + 1);
-        printf("THE FIRST LEGIT TOKEN IS VALID AND IS: %s\n", currToken);
 
       } else {
         // ELSE WE KNOW THE TOKEN IS INVALID.
-        printf("INVALID FIRST TOKEN HERE.\n\n");
         return errorIndex;
       }
 
     } else {
       // ELSE (IF WE GET HERE), WE KNOW THERE IS NO NEXT TOKEN, SO RETURN 0.
-      printf("CANNOT LEAVE BLANK HERE!!.\n\n");
       return errorIndex;
     }
 
@@ -385,7 +349,6 @@ int isValidExpression(char *expression) {
 
       char *tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
-        printf("MUST HAVE STUFF AFTER 'COMMAND'\n");
         return errorIndex;
       }
       setCurrToken(tempPtr);
@@ -412,7 +375,6 @@ int isValidExpression(char *expression) {
         if(isNextNull(nextTokenPtr)) {
           // IF WE SEE THE TOKEN IS NULL WITHOUT HAVING SEEN "END", WE 
           // KNOW THERE IS A MISTAKE AND RETURN 0.
-          printf("YOU FORGOT TO ADD AN 'END' TO YOUR EXPRESSION!!!\n");
           return errorIndex;
         } else {
           // NEED TO ENSURE THAT THERE IS AT LEAST ONE COMMA BETWEEN EACH 
@@ -429,33 +391,25 @@ int isValidExpression(char *expression) {
 
       // CHECK "numCommas". IF EQUAL TO 0, RETURN 0 SINCE THERE MUST BE
       // AT LEAST ONE COMMA BETWEEN EACH COMMAND.
-      printf("****** NUMBER OF COMMAS SEEN THIS LINE IS : %d *******\n", numCommas);
       if(numCommas == 0) {
-        printf("ALL COMMANDS MUST BE SEPARATED BY AT LEAST ONE COMMA!!!\n");
         return 0;
       }
 
       // CHECK EACH TIME THROUGH LOOP IF WE ARE AT 'END' COMMAND.
       if(checkEnd()) {
-        printf("YOU HAVE REACHED THE END!\n\n");
         // CHECK IF THERE WAS ANYTHING OTHER THAN WHITESPACE AFTER "END".
         if(isEnd()) {
-          printf("FINISHED WITH END! SWEET!!\n");
           return 0;
         } else {
-          printf("NICE TRY..... CANT HAVE ANYTHING AFTER 'END'!\n");
           return errorIndex;
         }        
       } else if(isValidCommand(currToken)) {
         // IF NOT AT 'END', WE MUST VERIFY IF CURRENT TOKEN IS VALID. IF 
         // IT IS WE KEEP GOING.
         errorIndex += (currTokenLength + 1);
-
-        printf("THE CURRENT TOKEN IS VALID AND IS: %s\n", currToken);
         continue;
       } else {
         // IF IT IS NOT VALID, WE EXIT.
-        printf("THE CURRENT TOKEN IS ***NOT*** VALID AND IS: %s\n", currToken);
         return errorIndex;
       }
     }
@@ -465,7 +419,6 @@ int isValidExpression(char *expression) {
     // WAS AN "END", IT WOULD HAVE CAUSED THE PROGRAM TO "RETURN" EITHER 1 OR 0,
     // THUS EXITING THE PROGRAM. THEREFORE, IF WE GET TO THIS POINT, WE HAVE TO 
     // RETURN 0 SINCE WE KNOW THERE MUST BE A PROBLEM.
-    printf("INVALID EXPRESSION!! NEED AN 'END' PLEASE TRY AGAIN!!\n");
     return errorIndex;
 
 
@@ -489,7 +442,6 @@ int isValidExpression(char *expression) {
 
     char *tempPtr = nextToken();
     if(isNextNull(tempPtr)) {
-      printf("MUST HAVE STUFF AFTER 'WHILE'\n");
       return errorIndex;
     }
     setCurrToken(tempPtr);
@@ -501,7 +453,6 @@ int isValidExpression(char *expression) {
 
       tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
-        printf("MUST HAVE STUFF AFTER 'WHILE' HERE!!\n");
         return errorIndex;
       }
       setCurrToken(tempPtr);
@@ -510,7 +461,6 @@ int isValidExpression(char *expression) {
 
     // CHECK IF TOKEN IS "NOT".
     if(strcmp(currToken, whileNot[i])) {
-      printf("Invalid 'NOT'.\n\n");
       return errorIndex;
     } else {
       errorIndex += (currTokenLength + 1);
@@ -524,7 +474,6 @@ int isValidExpression(char *expression) {
 
     tempPtr = nextToken();
     if(isNextNull(tempPtr)) {
-      printf("MUST HAVE STUFF AFTER 'NOT'\n");
       return errorIndex;
     }
     setCurrToken(tempPtr);
@@ -536,7 +485,6 @@ int isValidExpression(char *expression) {
 
       tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
-        printf("MUST HAVE STUFF AFTER 'NOT' HERE!!\n");
         return errorIndex;
       }
       setCurrToken(tempPtr);
@@ -545,7 +493,6 @@ int isValidExpression(char *expression) {
 
     // CHECK IF TOKEN IS "DETECTMARKER"
     if(strcmp(currToken, whileNot[i])) {
-      printf("Invalid DETECTMARKER.\n\n");
       return errorIndex;
     } else {
       errorIndex += (currTokenLength + 1);
@@ -559,7 +506,6 @@ int isValidExpression(char *expression) {
     // NEED TO CHECK IF FIRST CHAR IS NULL.
     tempPtr = nextToken();
     if(isNextNull(tempPtr)) {
-      printf("MUST HAVE STUFF AFTER 'DETECTMARKER'\n");
       return errorIndex;
     }
     setCurrToken(tempPtr);
@@ -571,7 +517,6 @@ int isValidExpression(char *expression) {
 
       tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
-        printf("MUST HAVE STUFF AFTER 'DETECTMARKER' HERE!!\n");
         return errorIndex;
       }
       setCurrToken(tempPtr);
@@ -579,7 +524,6 @@ int isValidExpression(char *expression) {
     }
 
     if(strcmp(currToken, whileNot[i])) {
-      printf("Invalid DO.\n\n");
       return errorIndex;
     } else {
       errorIndex += (currTokenLength + 1);
@@ -592,7 +536,6 @@ int isValidExpression(char *expression) {
 
       char *tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
-        printf("MUST HAVE STUFF AFTER 'DO'\n");
         return errorIndex;
       }
       setCurrToken(tempPtr);
@@ -609,7 +552,6 @@ int isValidExpression(char *expression) {
         if(isNextNull(pointerToken)) {
           // IF WE GET TO A NULL AT THIS POINT, WE KNOW THERE MUST NOT HAVE BEEN
           // ANY COMMANDS OR "END" ENTERED, SO WE RETURN 0 TO INDICATE ERROR.
-          printf("YOU MUST ENTER COMMA-SEPARATED-COMMANDS FOLLOWED BY 'END' \n");
           return errorIndex;
         } else {
           setCurrToken(pointerToken);
@@ -623,13 +565,10 @@ int isValidExpression(char *expression) {
       // AND KNOW THERE IS NOTHING AFTER IT, WE KNOW THE EXPRESSION IS CHECKED AND WE 
       // CAN CONFIRM IT IS CORRECT.
       if(checkEnd()) {
-        printf("NO COMMANDS ENTERED!\n\n");
         // CHECK IF THERE WAS ANYTHING OTHER THAN WHITESPACE AFTER "END".
         if(isEnd()) {
-          printf("THIS EXPRESSION FINISHED WITH 'END' AND IS VALID!\n");
           return 0;
         } else {
-          printf("CANNOT HAVE ANYTHING EXCEPT WHITESPACE AFTER 'END'!\n");
           return errorIndex;
         }
       }
@@ -637,16 +576,13 @@ int isValidExpression(char *expression) {
       // HERE WE CHECK FOR JUST THE VALID COMMANDS.
       if(isValidCommand(currToken)) {
         errorIndex += (currTokenLength + 1);
-        printf("THE FIRST LEGIT TOKEN IS VALID AND IS: %s\n", currToken);
       } else {
-        printf("INVALID FIRST TOKEN HERE.\n\n");
         return errorIndex;
       }
 
 
     } else {
       // ELSE (IF WE GET HERE), WE KNOW THERE IS NO NEXT TOKEN, SO RETURN 0.
-      printf("CANNOT LEAVE BLANK HERE!!.\n\n");
       return errorIndex;
     }
 
@@ -658,7 +594,6 @@ int isValidExpression(char *expression) {
       // MAKE SURE FIRST TOKEN ISN'T NULL.
       char *tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
-        printf("MUST HAVE STUFF AFTER 'COMMAND'\n");
         return errorIndex;
       }
       setCurrToken(tempPtr);
@@ -682,7 +617,6 @@ int isValidExpression(char *expression) {
         if(isNextNull(nextTokenPtr)) {
           // IF WE SEE THE TOKEN IS NULL WITHOUT HAVING SEEN "END", WE 
           // KNOW THERE IS A MISTAKE AND RETURN 0.
-          printf("YOU FORGOT TO ADD AN 'END' TO YOUR EXPRESSION!!!\n");
           return errorIndex;
         } else {
           // NEED TO ENSURE THAT THERE IS AT LEAST ONE COMMA BETWEEN EACH 
@@ -699,33 +633,25 @@ int isValidExpression(char *expression) {
 
       // CHECK "numCommas". IF EQUAL TO 0, RETURN 0 SINCE THERE MUST BE
       // AT LEAST ONE COMMA BETWEEN EACH COMMAND.
-      printf("****** NUMBER OF COMMAS SEEN THIS LINE IS : %d *******\n", numCommas);
       if(numCommas == 0) {
-        printf("ALL COMMANDS MUST BE SEPARATED BY AT LEAST ONE COMMA!!!\n");
         return 0;
       }
 
       // CHECK EACH TIME THROUGH LOOP IF WE ARE AT 'END' COMMAND.
       if(checkEnd()) {
-        printf("YOU HAVE REACHED THE END!\n\n");
         // CHECK IF THERE WAS ANYTHING OTHER THAN WHITESPACE AFTER "END".
         if(isEnd()) {
-          printf("FINISHED WITH END! SWEET!!\n");
           return 0;
         } else {
-          printf("NICE TRY..... CANT HAVE ANYTHING AFTER 'END'!\n");
           return errorIndex;
         }        
       } else if(isValidCommand(currToken)) {
         // IF NOT AT 'END', WE MUST VERIFY IF CURRENT TOKEN IS VALID. IF 
         // IT IS WE KEEP GOING.
         errorIndex += (currTokenLength + 1);
-
-        printf("THE CURRENT TOKEN IS VALID AND IS: %s\n", currToken);
         continue;
       } else {
         // IF IT IS NOT VALID, WE EXIT.
-        printf("THE CURRENT TOKEN IS ***NOT*** VALID AND IS: %s\n", currToken);
         return errorIndex;
       }
     }
@@ -735,7 +661,6 @@ int isValidExpression(char *expression) {
     // WAS AN "END", IT WOULD HAVE CAUSED THE PROGRAM TO "RETURN" EITHER 1 OR 0,
     // THUS EXITING THE PROGRAM. THEREFORE, IF WE GET TO THIS POINT, WE HAVE TO 
     // RETURN 0 SINCE WE KNOW THERE MUST BE A PROBLEM.
-    printf("INVALID EXPRESSION!! NEED AN 'END' PLEASE TRY AGAIN!!\n");
     return errorIndex;
 
 
@@ -770,7 +695,6 @@ int isValidExpression(char *expression) {
       if(isNextNull(ptrToken)) {
         // IF WE GET TO A NULL AT THIS POINT, WE KNOW THERE MUST NOT HAVE BEEN
         // ANY MESSAGE OR OTHER TOKENS ENTERED, SO WE RETURN 0 TO INDICATE ERROR.
-        printf("YOU MUST ENTER A MESSAGE AFTER USING 'SAY'. \n");
         return errorIndex;
       } else {
         setCurrToken(ptrToken);
@@ -778,18 +702,12 @@ int isValidExpression(char *expression) {
       }
     }
 
-    printf("SAY: %s\n", currToken);
-
     // IF FIRST CHAR AFTER SAY IS NOT A DOUBLE QUOTE, THERE IS A MISTAKE.
     if(currToken[0] != '"') {
-      printf("FIRST CHARACTER WAS **NOT** A DOUBLE QUOTE!!! .\n\n");
       return errorIndex;
 
     } else {
       // IF HERE, WE KNOW THE FIRST CHARACTER WAS A DOUBLE QUOTE, AS EXPECTED.
-      printf("FIRST CHARACTER AFTER 'SAY' IS A DOUBLE QUOTE!!! .\n\n");
-
-
 
       int tokLength = strlen(currToken);
       // FIRST THING TO DO, IF WE KNOW THE FIRST CHAR WAS A DOUBLE QUOTE OF 
@@ -803,9 +721,7 @@ int isValidExpression(char *expression) {
 
         // EXAMPLE: "abc".
         if(tokLength != 1) {
-          printf("\nOMG WTF PLEASE HAPPEN\n\n");
           if(isEnd()) {
-            printf("SEEEEEEEEE\n");
             return 0;
           } else {
             // IF WE GET HERE, WE KNOW THERE ARE MORE TOKENS FOLLOWING THE 
@@ -824,11 +740,9 @@ int isValidExpression(char *expression) {
             } else {
               errorIndex += (currTokenLength + 1);
             }
-            printf("ERROR INDEX: %d\n", errorIndex);
 
             char *DQPtr = nextToken();
             if(isNextNull(DQPtr)) {
-              printf("TOKEN IS NULL HERE DO SOMETHING DIFFERENT!!!\n");
               return errorIndex;
 
             } else {
@@ -836,7 +750,6 @@ int isValidExpression(char *expression) {
               currTokenLength = strlen(DQPtr);
 
               tokLength = strlen(currToken);
-              printf("\n\nITS LENGTH IS: %d\n\n\n", tokLength);
 
               if(currToken[tokLength-1] == '"') {
                 // IF WE FOUND A TOKEN WHOS LAST CHARACTER IS A DOUBLE QUOTE, WE 
@@ -865,11 +778,9 @@ int isValidExpression(char *expression) {
           } else {
             errorIndex += (currTokenLength + 1);
           }
-          printf("ERROR INDEX: %d\n", errorIndex);
 
           char *DQPtr = nextToken();
           if(isNextNull(DQPtr)) {
-            printf("TOKEN IS NULL HERE DO SOMETHING DIFFERENT!!!\n");
             return errorIndex;
 
           } else {
@@ -877,7 +788,6 @@ int isValidExpression(char *expression) {
             currTokenLength = strlen(DQPtr);
 
             tokLength = strlen(currToken);
-            printf("\n\nITS LENGTH IS: %d\n\n\n", tokLength);
 
             if(currToken[tokLength-1] == '"') {
               // IF WE FOUND A TOKEN WHOS LAST CHARACTER IS A DOUBLE QUOTE, WE 
@@ -896,8 +806,6 @@ int isValidExpression(char *expression) {
         }
       }
     }
-
   }
-  printf("THE EXPRESSION ENTERED WAS VALID\n\n");
   return 0;
 }

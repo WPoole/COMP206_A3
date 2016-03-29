@@ -21,7 +21,6 @@ void initBuffer(char *inputLine) {
   
   // Set p1 to start of buffer.
   p1 = &buffer;
-  printf("Size of string is: %d\n", strlen(buffer));
 
   // SETTING charSeen TO 0 AT THE START OF EACH LINE IS *VERY*
   // IMPORTANT. IT WILL NOT WORK OTHERWISE.
@@ -31,13 +30,10 @@ void initBuffer(char *inputLine) {
 
 // hasNextToken()
 int hasNextToken() {
-  // printf("THE LENGTH OF THE BUFFER IS: %d\n",strlen(buffer));
   if(charsSeen >= strlen(buffer)) {
     // Return 0 (false) if there is no next token.
-    printf("No more tokens.\n");
     return 0;
   } else {
-    printf("Still some tokens.\n");
     return 1;
   }
 }
@@ -46,7 +42,6 @@ int hasNextToken() {
 // nextToken()
 char *nextToken() {
   if(p1[0] == '\n') {
-    printf("You are returning NULL\n");
 
     return NULL;
     } else {
@@ -79,28 +74,21 @@ char *nextToken() {
         // end of the string. For this we just add '\0' on to end.
         returnMe[i] = '\0';
         
-        printf("returned string: %s\n", returnMe);
 
         if(p1[0] == ' ' || p1[0] == ',') {
           p1 = p1+1;
           charsSeen++;
-
-          printf("Size of string is: %d\n", strlen(buffer));
-          printf("charsSeen: %d\n", charsSeen);
-          printf("Still more tokens!\n");
 
           return returnMe;
         } else {
           // If here, p1 currently points to '\n', so no need 
           // to increment pointer. Just return "returnMe".
 
-          printf("End of line. No more tokens here!\n");
           return returnMe;
         }
       }
     }
   }
-
 
 
 // rewind()

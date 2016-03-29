@@ -5,7 +5,10 @@
 #include "syntax.h"
 
 
+// VARIABLE TO KEEP TRACK OF NUMBER OF ERRORS.
+int numErrors = 0;
 
+// FUNCTION TO CONVERT STRING INTO ALL UPPERCASE CHARACTERS.
 void toUpperCase(char *input) {
   int length = strlen(input);
   for(int i=0; i<length; i++) {
@@ -13,7 +16,6 @@ void toUpperCase(char *input) {
       input[i] = input[i] - 32;
     }
   }
-  printf("THE UPDATED EXPRESSION IS: %s\n", input);
 }
 
 
@@ -77,26 +79,27 @@ void syntaxCheck(char *line, int lineNum) {
 
   initBuffer(line);
   int result = isValidExpression(line);
-  printf("THE INDEX OF THE ERROR IS: %d\n", result);
+  // printf("THE INDEX OF THE ERROR IS: %d\n", result);
 
   if(result == 0) {
-    printf("\n\n\n\n\n\n\n\n"); 
-    printf("LINE %d WAS TOTALLY FINE!!!\n", lineNum);
-    printf("THE WELL-WRITTEN LINE IS: %s", line);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    // printf("\n\n"); 
+    // printf("LINE %d WAS TOTALLY FINE!!!\n", lineNum);
+    // printf("THE WELL-WRITTEN LINE IS: %s", line);
+    // printf("\n\n");
 
   } else if(result == 1) { 
-    printf("\n\n\n\n\n\n\n\n"); 
+    printf("\n\n"); 
     printf("OFFENDING LINE IS ON LINE NUMBER: %d\n", lineNum);
-    printf("OFFENDING LINE IS: %s\n", line);
-    printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: ***%s\n", line);
+    printf("OFFENDING LINE IS: %s", line);
+    printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: ***%s", line);
     printError(line);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    numErrors++;
+    printf("\n\n");
 
   } else {
-    printf("\n\n\n\n\n\n\n\n"); 
+    printf("\n\n"); 
     printf("OFFENDING LINE IS ON LINE NUMBER: %d\n", lineNum);
-    printf("OFFENDING LINE IS: %s\n", line);
+    printf("OFFENDING LINE IS: %s", line);
     line[result-2] = '\0';
     printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: %s", line);
     int length = strlen(line);
@@ -104,8 +107,8 @@ void syntaxCheck(char *line, int lineNum) {
     printf("***");
     printf("%s\n", secondHalf);
     printError(line);
-
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    numErrors++;
+    printf("\n\n");
   }
 }
 
@@ -135,29 +138,22 @@ int main(int argc, char *argv[]) {
   // VARIABLE TO KEEP TRACK OF LINE NUMBER WE'RE ON.
   int lineNum = 1;
   fgets(line, 299, file_ptr);
-
-  printf("LINE BEFORE MODIFICATION IS: %s\n", line);
   toUpperCase(line);
-  printf("LINE AFTER MODIFICATION IS: %s\n", line);
-
   syntaxCheck(line, lineNum);
 
   while(!feof(file_ptr)) {
     // GET NEXT LINE.
     fgets(line, 299, file_ptr);
-
-    printf("LINE BEFORE MODIFICATION IS: %s\n", line);
     toUpperCase(line);
-    printf("LINE AFTER MODIFICATION IS: %s\n", line);
-
     lineNum++;
     syntaxCheck(line, lineNum);
 
   }
   fclose(file_ptr);
 
-
-printf("THE COMPARISON GAVE: %d\n", strcmpi("heLlO", "hELlO"));
+  if(numErrors == 0) {
+    printf("There were no errors in your program. Congrats!\n");
+  }
 
   return 0;
 }
