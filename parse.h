@@ -3,4 +3,4 @@
 void initBuffer(char *inputLine);
 int hasNextToken();
 char *nextToken();
-void rewind();
+void rrewind();

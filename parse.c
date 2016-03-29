@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+// All #define variables.
+#define BOOLEAN int
+
 // Global buffer array for each line.
 char buffer[300];
 
@@ -29,7 +32,7 @@ void initBuffer(char *inputLine) {
 
 
 // hasNextToken()
-int hasNextToken() {
+BOOLEAN hasNextToken() {
   if(charsSeen >= strlen(buffer)) {
     // Return 0 (false) if there is no next token.
     return 0;
@@ -92,7 +95,7 @@ char *nextToken() {
 
 
 // rewind()
-void rewind() {
+void rrewind() {
   //Just need to bring pointer, p1, back to start of buffer.
   p1 = &buffer;
 

@@ -27,7 +27,7 @@ void printError(char *line) {
   if(repeat != NULL) {
     printf("Error - The syntax for a valid 'Repeat' loop is the following: \n");
     printf("REPEAT n TIMES Comma-Separated-List-Of-Commands END\n");
-    printf("Where 'n' IS AN INTEGER.\n");
+    printf("Where 'n' is an integer greater than zero.\n");
     return;
   }
 
@@ -43,7 +43,7 @@ void printError(char *line) {
   char *say = strstr(line, "SAY");
   if(say != NULL) {
     printf("Error - The syntax for a valid 'Say' expression is the following: \n");
-    printf("SAY 'Enter a message here that you want to say'\n");
+    printf("SAY %cEnter a message here that you want to say%c\n", '"', '"');
     return;
   }
 

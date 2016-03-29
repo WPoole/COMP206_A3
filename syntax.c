@@ -245,10 +245,14 @@ int isValidExpression(char *expression) {
       currTokenLength = strlen(currToken);
     }
 
-
+    // CHECK IF WE HAVE A VALID NUMBER FOR "n".
     if(!isNumber(currToken)) {
       return errorIndex;
     } else {
+      if(atoi(currToken) <= 0) {
+        // NUMBER MUST BE GREATER THAN 0.
+        return errorIndex;
+      }
       errorIndex += (currTokenLength + 1);
     }
 
