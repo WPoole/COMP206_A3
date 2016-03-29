@@ -11,7 +11,8 @@ int numErrors = 0;
 // FUNCTION TO CONVERT STRING INTO ALL UPPERCASE CHARACTERS.
 void toUpperCase(char *input) {
   int length = strlen(input);
-  for(int i=0; i<length; i++) {
+  int i = 0;
+  for(i; i<length; i++) {
     if(input[i] >= 'a' && input[i] <= 'z') {
       input[i] = input[i] - 32;
     }
@@ -90,7 +91,7 @@ void syntaxCheck(char *line, int lineNum) {
   } else if(result == 1) { 
     printf("\n\n"); 
     printf("OFFENDING LINE IS ON LINE NUMBER: %d\n", lineNum);
-    printf("OFFENDING LINE IS: %s", line);
+    printf("OFFENDING LINE IS: %s\n", line);
     printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: ***%s", line);
     printError(line);
     numErrors++;
@@ -99,7 +100,7 @@ void syntaxCheck(char *line, int lineNum) {
   } else {
     printf("\n\n"); 
     printf("OFFENDING LINE IS ON LINE NUMBER: %d\n", lineNum);
-    printf("OFFENDING LINE IS: %s", line);
+    printf("OFFENDING LINE IS: %s\n", line);
     line[result-2] = '\0';
     printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: %s", line);
     int length = strlen(line);
@@ -154,7 +155,6 @@ int main(int argc, char *argv[]) {
   if(numErrors == 0) {
     printf("There were no errors in your program. Congrats!\n");
   }
-
   return 0;
 }
 
