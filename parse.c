@@ -79,8 +79,8 @@ char *nextToken() {
         
 
         if(p1[0] == ' ' || p1[0] == ',') {
-          p1 = p1+1;
-          charsSeen++;
+          // p1 = p1+1;
+          // charsSeen++;
 
           return returnMe;
         } else {

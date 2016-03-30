@@ -19,6 +19,22 @@ void toUpperCase(char *input) {
   }
 }
 
+// FUNCTION TO PRINT STRING UP TO CERTAIN POINT, INSERT "***", THEN
+// PRINT THE REMAINDER OF THE STRING.
+void printHalf(char *input, int stopPoint) {
+  int i = 0;
+  int length = strlen(input);
+  char firstHalf[length];
+  for(i; i<=stopPoint; i++) {
+    firstHalf[i] = input[i];
+  }
+  firstHalf[i] = '\0';
+  printf("%s", firstHalf);
+  char *secondHalf = &input[stopPoint+1];
+  printf("***");
+  printf("%s\n", secondHalf);
+}
+
 
 // FUNCTION FOR DETERMINING WHAT KIND OF ERROR MESSAGE TO PRINT.
 void printError(char *line) {
@@ -80,36 +96,33 @@ void syntaxCheck(char *line, int lineNum) {
 
   initBuffer(line);
   int result = isValidExpression(line);
-  // printf("THE INDEX OF THE ERROR IS: %d\n", result);
 
   if(result == 0) {
-    // printf("\n\n"); 
-    // printf("LINE %d WAS TOTALLY FINE!!!\n", lineNum);
-    // printf("THE WELL-WRITTEN LINE IS: %s", line);
-    // printf("\n\n");
+    // DO NOTHING.
 
-  } else if(result == 1) { 
-    printf("\n\n"); 
+  } else if(result == 1) {
+    printf("\n\n");
+    printf("*************************************************************************************************\n");
     printf("OFFENDING LINE IS ON LINE NUMBER: %d\n", lineNum);
     printf("OFFENDING LINE IS: %s\n", line);
     printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: ***%s", line);
+    printf("\n");
     printError(line);
     numErrors++;
-    printf("\n\n");
+    printf("*************************************************************************************************\n");
+    printf("\n\n\n\n\n");
 
   } else {
     printf("\n\n"); 
+    printf("*************************************************************************************************\n");
     printf("OFFENDING LINE IS ON LINE NUMBER: %d\n", lineNum);
     printf("OFFENDING LINE IS: %s\n", line);
-    line[result-2] = '\0';
-    printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: %s", line);
-    int length = strlen(line);
-    char *secondHalf = &line[length+1];
-    printf("***");
-    printf("%s\n", secondHalf);
+    printf("THE ERROR IS INDICATED BY THREE CONSECUTIVE ASTERISKS: ");
+    printHalf(line, result-2);
     printError(line);
     numErrors++;
-    printf("\n\n");
+    printf("*************************************************************************************************\n");
+    printf("\n\n\n\n\n");
   }
 }
 

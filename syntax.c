@@ -71,7 +71,7 @@ int checkEnd() {
 // IS WRITTEN AFTER "END" HAS BEEN SEEN. RETURNS 0 IF THERE WAS 
 // ANYHING OTHER THAN WHITESPACE AFTER "END", 1 OTHERWISE.
 int isEnd() {
-  errorIndex += (currTokenLength + 1);
+  errorIndex += (currTokenLength);
   while(!isNextNull(currToken)) {
     char *nextTokenPointer = nextToken();
 
@@ -218,7 +218,11 @@ int isValidExpression(char *expression) {
     // NOTE: IN CASES WHERE WE ACTUALLY SAW A TOKEN THAT WAS *NOT* A WHITE SPACE, 
     // WE NEED TO ADD AN EXTRA +1 TO THE "errorIndex" TO ACCOUNT FOR THE EXTRA
     // SPACE THAT GETS ADDED AFTER THE TOKEN HAS BEEN READ.
-    errorIndex += (currTokenLength + 1);
+
+    // THIS IS THE START OF MY CHANGES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+    // STOP JUST BEFORE THIS TO GET BACK TO NORMAL!!
+
+    errorIndex += (currTokenLength);
 
     // IF THE FIRST WORD IS "REPEAT", WE WILL BE MAKING COMPARISONS
     // WITH THE "repeat" ARRAY.
@@ -253,7 +257,7 @@ int isValidExpression(char *expression) {
         // NUMBER MUST BE GREATER THAN 0.
         return errorIndex;
       }
-      errorIndex += (currTokenLength + 1);
+      errorIndex += (currTokenLength);
     }
 
 
@@ -285,7 +289,7 @@ int isValidExpression(char *expression) {
     if(strcmp(currToken, repeat[i])) {
       return errorIndex;
     } else {
-      errorIndex += (currTokenLength + 1);
+      errorIndex += (currTokenLength);
     }
 
     // NOW AT THIS POINT WE SHOULD HAVE IN FRONT OF US THE "COMMA-SEPARATED-
@@ -333,7 +337,7 @@ int isValidExpression(char *expression) {
 
       // HERE WE CHECK FOR JUST THE VALID COMMANDS.
       if(isValidCommand(currToken)) {
-        errorIndex += (currTokenLength + 1);
+        errorIndex += (currTokenLength);
 
       } else {
         // ELSE WE KNOW THE TOKEN IS INVALID.
@@ -347,10 +351,15 @@ int isValidExpression(char *expression) {
 
 
 
+    
+
     // THIS IS THE FINAL WHILE LOOP NOW THAT WILL LOOP OVER ALL REMAINING
     // THINGS IN THE EXPRESSION.
     while(hasNextToken()) {
 
+      // INTEGER TO KEEP TRACK OF NUMBER OF COMMAS SEEN.
+      int numCommas = 0;
+     
       char *tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
         return errorIndex;
@@ -358,18 +367,10 @@ int isValidExpression(char *expression) {
       setCurrToken(tempPtr);
       currTokenLength = strlen(currToken);
 
-
-      // INTEGER TO KEEP TRACK OF NUMBER OF COMMAS SEEN.
-      int numCommas = 0;
-      // ********************** IDEA: JUST SET POINTER BACK BY ONE SPOT
-      // AND CHECK IF ITS A COMMA.
-
       // CHECK TO SEE IF FIRST TOKEN IS COMMA
-      if(isComma) {
+      if(isComma()) {
         numCommas++;
       }
-
-
 
       // HERE THERE CAN BE COMMAS OR WHITE SPACES SO WE CHECK FOR BOTH.
       while(isCommaOrWhite()) {
@@ -381,23 +382,21 @@ int isValidExpression(char *expression) {
           // KNOW THERE IS A MISTAKE AND RETURN 0.
           return errorIndex;
         } else {
+
+          setCurrToken(nextTokenPtr);
+          currTokenLength = strlen(currToken);
+
           // NEED TO ENSURE THAT THERE IS AT LEAST ONE COMMA BETWEEN EACH 
           // COMMAND. TO DO THIS, COUNT EACH COMMA WE SEE. IF OUR COUNT IS
           // ZERO AT THE END OF THIS LOOP, THEN WE KNOW THEY WERE MISSING 
           // A COMMA, SO WE THROW AN ERROR AND RETURN 0.
-          if(isComma) {
+          if(isComma()) {
             numCommas++;
+
           }
-          setCurrToken(nextTokenPtr);
-          currTokenLength = strlen(currToken);
         }
       }
 
-      // CHECK "numCommas". IF EQUAL TO 0, RETURN 0 SINCE THERE MUST BE
-      // AT LEAST ONE COMMA BETWEEN EACH COMMAND.
-      if(numCommas == 0) {
-        return 0;
-      }
 
       // CHECK EACH TIME THROUGH LOOP IF WE ARE AT 'END' COMMAND.
       if(checkEnd()) {
@@ -407,16 +406,23 @@ int isValidExpression(char *expression) {
         } else {
           return errorIndex;
         }        
+      } else if(numCommas == 0){
+        // CHECK "numCommas". IF EQUAL TO 0, RETURN 0 SINCE THERE MUST BE
+        // AT LEAST ONE COMMA BETWEEN EACH COMMAND.
+        printf("THE NUMBER OF COMMAS BETWEEN TOKENS HERE IS: %d\n", numCommas);
+        return errorIndex;
+
       } else if(isValidCommand(currToken)) {
         // IF NOT AT 'END', WE MUST VERIFY IF CURRENT TOKEN IS VALID. IF 
         // IT IS WE KEEP GOING.
-        errorIndex += (currTokenLength + 1);
+        errorIndex += (currTokenLength);
         continue;
       } else {
         // IF IT IS NOT VALID, WE EXIT.
         return errorIndex;
       }
     }
+
 
     // VERY IMPORTANT: IF WE GET TO THIS POINT HERE, WE KNOW THAT THERE WAS NO
     // "END" STATEMENT IN THE EXPRESSION. HOW DO WE KNOW THIS? BECAUSE IF THERE
@@ -434,7 +440,7 @@ int isValidExpression(char *expression) {
 
     currTokenLength = strlen(currToken);
 
-    errorIndex += (currTokenLength + 1);
+    errorIndex += (currTokenLength);
 
     // IF THE FIRST WORD IS "WHILE", WE WILL BE MAKING COMPARISONS
     // WITH THE "whileNot" ARRAY.
@@ -467,7 +473,7 @@ int isValidExpression(char *expression) {
     if(strcmp(currToken, whileNot[i])) {
       return errorIndex;
     } else {
-      errorIndex += (currTokenLength + 1);
+      errorIndex += (currTokenLength);
     }
 
 
@@ -499,7 +505,7 @@ int isValidExpression(char *expression) {
     if(strcmp(currToken, whileNot[i])) {
       return errorIndex;
     } else {
-      errorIndex += (currTokenLength + 1);
+      errorIndex += (currTokenLength);
     }
 
 
@@ -530,7 +536,7 @@ int isValidExpression(char *expression) {
     if(strcmp(currToken, whileNot[i])) {
       return errorIndex;
     } else {
-      errorIndex += (currTokenLength + 1);
+      errorIndex += (currTokenLength);
     }
 
 
@@ -579,7 +585,7 @@ int isValidExpression(char *expression) {
 
       // HERE WE CHECK FOR JUST THE VALID COMMANDS.
       if(isValidCommand(currToken)) {
-        errorIndex += (currTokenLength + 1);
+        errorIndex += (currTokenLength);
       } else {
         return errorIndex;
       }
@@ -595,6 +601,9 @@ int isValidExpression(char *expression) {
     // THINGS IN THE EXPRESSION.
     while(hasNextToken()) {
 
+      // INTEGER TO KEEP TRACK OF NUMBER OF COMMAS SEEN.
+      int numCommas = 0;
+
       // MAKE SURE FIRST TOKEN ISN'T NULL.
       char *tempPtr = nextToken();
       if(isNextNull(tempPtr)) {
@@ -603,12 +612,8 @@ int isValidExpression(char *expression) {
       setCurrToken(tempPtr);
       currTokenLength = strlen(currToken);
 
-
-      // INTEGER TO KEEP TRACK OF NUMBER OF COMMAS SEEN.
-      int numCommas = 0;
-
       // CHECK TO SEE IF FIRST TOKEN IS COMMA
-      if(isComma) {
+      if(isComma()) {
         numCommas++;
       }
 
@@ -623,23 +628,20 @@ int isValidExpression(char *expression) {
           // KNOW THERE IS A MISTAKE AND RETURN 0.
           return errorIndex;
         } else {
+
+          setCurrToken(nextTokenPtr);
+          currTokenLength = strlen(currToken);
           // NEED TO ENSURE THAT THERE IS AT LEAST ONE COMMA BETWEEN EACH 
           // COMMAND. TO DO THIS, COUNT EACH COMMA WE SEE. IF OUR COUNT IS
           // ZERO AT THE END OF THIS LOOP, THEN WE KNOW THEY WERE MISSING 
           // A COMMA, SO WE THROW AN ERROR AND RETURN 0.
-          if(isComma) {
+          if(isComma()) {
             numCommas++;
+
           }
-          setCurrToken(nextTokenPtr);
-          currTokenLength = strlen(currToken);
         }
       }
 
-      // CHECK "numCommas". IF EQUAL TO 0, RETURN 0 SINCE THERE MUST BE
-      // AT LEAST ONE COMMA BETWEEN EACH COMMAND.
-      if(numCommas == 0) {
-        return 0;
-      }
 
       // CHECK EACH TIME THROUGH LOOP IF WE ARE AT 'END' COMMAND.
       if(checkEnd()) {
@@ -649,10 +651,16 @@ int isValidExpression(char *expression) {
         } else {
           return errorIndex;
         }        
+      } else if(numCommas == 0) {
+        // CHECK "numCommas". IF EQUAL TO 0, RETURN 0 SINCE THERE MUST BE
+        // AT LEAST ONE COMMA BETWEEN EACH COMMAND.
+        printf("THE NUMBER OF COMMAS BETWEEN TOKENS HERE IS: %d\n", numCommas);
+        return errorIndex;
+
       } else if(isValidCommand(currToken)) {
         // IF NOT AT 'END', WE MUST VERIFY IF CURRENT TOKEN IS VALID. IF 
         // IT IS WE KEEP GOING.
-        errorIndex += (currTokenLength + 1);
+        errorIndex += (currTokenLength);
         continue;
       } else {
         // IF IT IS NOT VALID, WE EXIT.
@@ -676,7 +684,7 @@ int isValidExpression(char *expression) {
 
     currTokenLength = strlen(currToken);
 
-    errorIndex += (currTokenLength + 1);
+    errorIndex += (currTokenLength);
 
     // CHECK IF NEXT TOKEN IS NULL AND THEN SET IT.
     char *nextPtr = nextToken();
@@ -742,7 +750,7 @@ int isValidExpression(char *expression) {
             if(isCommaOrWhite()) {
               errorIndex += currTokenLength;
             } else {
-              errorIndex += (currTokenLength + 1);
+              errorIndex += (currTokenLength);
             }
 
             char *DQPtr = nextToken();
@@ -780,7 +788,7 @@ int isValidExpression(char *expression) {
           if(isCommaOrWhite()) {
             errorIndex += currTokenLength;
           } else {
-            errorIndex += (currTokenLength + 1);
+            errorIndex += (currTokenLength);
           }
 
           char *DQPtr = nextToken();
